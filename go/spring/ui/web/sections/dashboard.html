@@ -1,0 +1,98 @@
+<div class="section-container" id="dashboard-section">
+    <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Spring Back Sell Overview</p>
+    </div>
+    <div id="dashboard-widgets" class="layer8d-widget-grid"></div>
+</div>
+
+<script>
+function initSpringDashboard() {
+    var container = document.getElementById('dashboard-widgets');
+    if (!container) return;
+
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--layer8d-text-medium);">Loading dashboard...</div>';
+
+    var token = sessionStorage.getItem('bearerToken');
+    var headers = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
+
+    var kpis = [
+        { key: 'activeListings', label: 'Active Listings', icon: 'listing', query: 'select * from SpringListing where status=2', endpoint: '/10/Listing' },
+        { key: 'pendingBids', label: 'Pending Bids', icon: 'bid', query: 'select * from SpringBid where status=1', endpoint: '/10/Bid' },
+        { key: 'dealsInProgress', label: 'Deals In Progress', icon: 'deal', query: 'select * from SpringDeal where status=2', endpoint: '/10/Deal' },
+        { key: 'completedDeals', label: 'Completed Deals', icon: 'complete', query: 'select * from SpringDeal where status=5', endpoint: '/10/Deal' },
+        { key: 'totalReviews', label: 'Published Reviews', icon: 'review', query: 'select * from SpringReview where status=2', endpoint: '/10/Review' },
+        { key: 'totalCategories', label: 'Categories', icon: 'category', query: 'select * from SpringCategory', endpoint: '/10/Category' }
+    ];
+
+    var iconSvgs = {
+        listing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
+        bid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+        deal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+        complete: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>',
+        review: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+        category: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>'
+    };
+
+    var results = {};
+    var pending = kpis.length;
+
+    kpis.forEach(function(kpi) {
+        var body = encodeURIComponent(JSON.stringify({ text: kpi.query + ' limit 1 page 0' }));
+        var url = Layer8DConfig.resolveEndpoint(kpi.endpoint) + '?body=' + body;
+        fetch(url, { method: 'GET', headers: headers })
+            .then(function(r) { return r.ok ? r.json() : { metadata: {} }; })
+            .then(function(data) {
+                var total = 0;
+                if (data.metadata && data.metadata.keyCount && data.metadata.keyCount.counts) {
+                    total = data.metadata.keyCount.counts.Total || 0;
+                }
+                results[kpi.key] = total;
+            })
+            .catch(function() { results[kpi.key] = 0; })
+            .finally(function() {
+                pending--;
+                if (pending === 0) renderDashboard(kpis, results, iconSvgs, container);
+            });
+    });
+}
+
+function renderDashboard(kpis, results, iconSvgs, container) {
+    if (!window.Layer8DWidget) {
+        container.innerHTML = kpis.map(function(kpi) {
+            return '<div style="background:var(--layer8d-bg-white);border:1px solid var(--layer8d-border);border-radius:8px;padding:20px;">' +
+                '<div style="font-size:24px;font-weight:700;color:var(--layer8d-text-dark);">' + (results[kpi.key] || 0) + '</div>' +
+                '<div style="font-size:13px;color:var(--layer8d-text-medium);margin-top:4px;">' + kpi.label + '</div>' +
+                '</div>';
+        }).join('');
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        container.style.gap = '16px';
+        return;
+    }
+
+    var html = kpis.map(function(kpi) {
+        return Layer8DWidget.render({
+            label: kpi.label,
+            icon: kpi.icon,
+            iconSvg: iconSvgs[kpi.icon] || ''
+        }, results[kpi.key] || 0, {});
+    }).join('');
+
+    container.innerHTML = html;
+}
+</script>
+
+<style>
+#dashboard-section .layer8d-widget-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+}
+@media (max-width: 768px) {
+    #dashboard-section .layer8d-widget-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>

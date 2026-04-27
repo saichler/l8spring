@@ -1,0 +1,14 @@
+{
+    "login": {
+        "appTitle": "Spring Back Sell",
+        "authEndpoint": "/auth",
+        "redirectUrl": "/app.html",
+        "sessionTimeout": 30,
+        "tfaEnabled": true
+    },
+    "app": {
+        "dateFormat": "mm/dd/yyyy",
+        "apiPrefix": "/spring",
+        "healthPath": "/0/Health"
+    }
+}

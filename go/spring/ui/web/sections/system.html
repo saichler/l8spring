@@ -1,0 +1,70 @@
+<div class="section-container l8-section">
+    <div class="page-header"><h1>System Administration</h1></div>
+
+    <div class="l8-module-tabs">
+        <button class="l8-module-tab active" data-module="health">
+            <span class="tab-label">Health</span>
+        </button>
+        <button class="l8-module-tab" data-module="security">
+            <span class="tab-label">Security</span>
+        </button>
+        <button class="l8-module-tab" data-module="modules">
+            <span class="tab-label">Modules</span>
+        </button>
+        <button class="l8-module-tab" data-module="logs">
+            <span class="tab-label">Logs</span>
+        </button>
+        <button class="l8-module-tab" data-module="dataimport">
+            <span class="tab-label">Data Import</span>
+        </button>
+    </div>
+
+    <div class="section-content">
+        <div class="l8-module-content active" data-module="health">
+            <div class="l8-table-container" id="health-table-container"></div>
+        </div>
+
+        <div class="l8-module-content" data-module="security">
+            <nav class="l8-subnav">
+                <a class="l8-subnav-item active" data-service="users"><span class="subnav-label">Users</span></a>
+                <a class="l8-subnav-item" data-service="roles"><span class="subnav-label">Roles</span></a>
+                <a class="l8-subnav-item" data-service="credentials"><span class="subnav-label">Credentials</span></a>
+                <a class="l8-subnav-item" data-service="events"><span class="subnav-label">Events</span></a>
+            </nav>
+            <div class="l8-service-content">
+                <div class="l8-service-view active" data-service="users">
+                    <div class="l8-table-container" id="security-users-table-container"></div>
+                </div>
+                <div class="l8-service-view" data-service="roles">
+                    <div class="l8-table-container" id="security-roles-table-container"></div>
+                </div>
+                <div class="l8-service-view" data-service="credentials">
+                    <div class="l8-table-container" id="security-credentials-table-container"></div>
+                </div>
+                <div class="l8-service-view" data-service="events">
+                    <div class="l8-table-container" id="security-events-table-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="l8-module-content" data-module="modules">
+            <div class="l8-service-content" style="overflow-y:auto;">
+                <div id="modules-settings-container"></div>
+            </div>
+        </div>
+
+        <div class="l8-module-content" data-module="logs">
+            <div class="l8-table-container" id="logs-table-container"></div>
+        </div>
+
+        <div class="l8-module-content" data-module="dataimport">
+            <div id="dataimport-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    if (typeof initializeL8Sys === 'function') {
+        initializeL8Sys();
+    }
+</script>

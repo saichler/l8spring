@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#ffffff">
+    <title>Spring Back Sell</title>
+    <link rel="icon" href="../l8ui/images/logo.gif">
+    <link rel="apple-touch-icon" href="../l8ui/images/logo.gif">
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="../l8ui/shared/layer8d-theme-tokens.css">
+    <link rel="stylesheet" href="../l8ui/shared/layer8d-theme.css">
+    <!-- CSS: App Shell -->
+    <link rel="stylesheet" href="css/app-base.css">
+    <link rel="stylesheet" href="css/app-header.css">
+    <link rel="stylesheet" href="css/app-nav.css">
+    <link rel="stylesheet" href="css/app-sidebar.css">
+    <!-- CSS: L8UI Components -->
+    <link rel="stylesheet" href="../l8ui/shared/layer8d-toggle-tree.css">
+    <link rel="stylesheet" href="../l8ui/sys/modules/l8sys-modules.css">
+    <link rel="stylesheet" href="../l8ui/sys/dataimport/l8dataimport.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-popup.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-confirm.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-table.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-edit-table.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-forms.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-forms-tabs.css">
+    <link rel="stylesheet" href="../l8ui/shared/layer8d-form-fields.css">
+    <link rel="stylesheet" href="../l8ui/shared/layer8-file-upload.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-datepicker.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-reference-picker.css">
+    <link rel="stylesheet" href="../l8ui/m/css/layer8m-nav-cards.css">
+    <link rel="stylesheet" href="../l8ui/chart/layer8d-chart.css">
+    <link rel="stylesheet" href="../l8ui/kanban/layer8d-kanban.css">
+    <link rel="stylesheet" href="../l8ui/timeline/layer8d-timeline.css">
+    <link rel="stylesheet" href="../l8ui/calendar/layer8d-calendar.css">
+    <link rel="stylesheet" href="../l8ui/tree_grid/layer8d-tree-grid.css">
+    <link rel="stylesheet" href="../l8ui/gantt/layer8d-gantt.css">
+    <link rel="stylesheet" href="../l8ui/wizard/layer8d-wizard.css">
+    <link rel="stylesheet" href="../l8ui/dashboard/layer8d-widget.css">
+    <link rel="stylesheet" href="../l8ui/shared/layer8-markdown.css">
+    <link rel="stylesheet" href="../l8ui/shared/layer8-view-switcher.css">
+    <link rel="stylesheet" href="../l8ui/shared/layer8-print.css" media="print">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="mobile-header">
+            <button class="header-menu-btn" id="menu-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="header-logo">
+                <img src="../l8ui/images/logo.gif" alt="Spring Back Sell">
+                <span class="header-logo-text">Spring Back Sell</span>
+            </div>
+            <div class="header-actions">
+                <div class="layer8d-theme-picker">
+                    <button class="layer8d-theme-btn header-action-btn" onclick="Layer8DThemeSwitcher.toggleDropdown()" aria-label="Choose theme" title="Choose theme">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 0 20V2z"/></svg>
+                    </button>
+                    <div class="layer8d-theme-menu"></div>
+                </div>
+                <button class="header-action-btn" id="refresh-btn" title="Refresh">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6"></path>
+                        <path d="M1 20v-6h6"></path>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="mobile-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="../l8ui/images/logo.gif" alt="Spring Back Sell">
+                    <span class="sidebar-logo-text">Spring Back Sell</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Main</div>
+                    <a href="#dashboard" class="sidebar-item active" data-section="dashboard">
+                        <span class="sidebar-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                        </span>
+                        Dashboard
+                    </a>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Marketplace</div>
+                    <a href="#dashboard" class="sidebar-item" data-section="dashboard" data-module="marketplace">
+                        <span class="sidebar-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </span>
+                        Marketplace
+                    </a>
+                    <a href="#system" class="sidebar-item" data-section="system" data-module="system">
+                        <span class="sidebar-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </span>
+                        System
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-user">
+                <div class="sidebar-user-info">
+                    <div class="sidebar-avatar" id="user-avatar">U</div>
+                    <div class="sidebar-user-details">
+                        <div class="sidebar-user-name" id="user-name">User</div>
+                        <div class="sidebar-user-role">Member</div>
+                    </div>
+                </div>
+                <button class="sidebar-logout-btn" onclick="MobileApp.logout()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="loading">Loading</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Theme Switcher -->
+    <script src="../l8ui/shared/layer8d-theme-switcher.js"></script>
+    <script>Layer8DThemeSwitcher.init();</script>
+
+    <!-- JS: Layer8 Mobile Core -->
+    <script src="../l8ui/m/js/layer8m-config.js"></script>
+    <script src="../l8ui/m/js/layer8m-auth.js"></script>
+    <script src="../l8ui/m/js/layer8m-utils.js"></script>
+
+    <!-- JS: Shared Desktop Utilities -->
+    <script src="../l8ui/shared/layer8d-config.js"></script>
+    <script src="../l8ui/shared/layer8d-utils.js"></script>
+    <script src="../l8ui/shared/layer8d-renderers.js"></script>
+    <script src="../l8ui/shared/layer8d-reference-registry.js"></script>
+
+    <!-- JS: Factory Components -->
+    <script src="../l8ui/shared/layer8-enum-factory.js"></script>
+    <script src="../l8ui/shared/layer8-ref-factory.js"></script>
+    <script src="../l8ui/shared/layer8-column-factory.js"></script>
+    <script src="../l8ui/shared/layer8-form-factory.js"></script>
+    <script src="../l8ui/shared/layer8-form-factory-presets.js"></script>
+    <script src="../l8ui/m/js/layer8m-module-registry.js"></script>
+
+    <!-- JS: Mobile Components -->
+    <script src="../l8ui/m/js/layer8m-popup.js"></script>
+    <script src="../l8ui/m/js/layer8m-confirm.js"></script>
+    <script src="../l8ui/m/js/layer8m-data-source.js"></script>
+    <script src="../l8ui/m/js/layer8m-table.js"></script>
+    <script src="../l8ui/m/js/layer8m-edit-table.js"></script>
+    <script src="../l8ui/m/js/layer8m-table-touch.js"></script>
+    <script src="../l8ui/shared/layer8-csv-export.js"></script>
+    <script src="../l8ui/shared/layer8-file-upload.js"></script>
+
+    <!-- JS: View System -->
+    <script src="../l8ui/m/js/layer8m-view-factory.js"></script>
+    <script src="../l8ui/shared/layer8d-view-factory.js"></script>
+    <script src="../l8ui/shared/layer8d-data-source.js"></script>
+    <script src="../l8ui/shared/layer8-view-switcher.js"></script>
+    <script src="../l8ui/chart/layer8d-chart-core.js"></script>
+    <script src="../l8ui/chart/layer8d-chart-bar.js"></script>
+    <script src="../l8ui/chart/layer8d-chart-line.js"></script>
+    <script src="../l8ui/chart/layer8d-chart-pie.js"></script>
+    <script src="../l8ui/m/js/layer8m-chart.js"></script>
+    <script src="../l8ui/kanban/layer8d-kanban-core.js"></script>
+    <script src="../l8ui/kanban/layer8d-kanban-render.js"></script>
+    <script src="../l8ui/kanban/layer8d-kanban-events.js"></script>
+    <script src="../l8ui/m/js/layer8m-kanban.js"></script>
+    <script src="../l8ui/timeline/layer8d-timeline.js"></script>
+    <script src="../l8ui/m/js/layer8m-timeline.js"></script>
+    <script src="../l8ui/calendar/layer8d-calendar-core.js"></script>
+    <script src="../l8ui/calendar/layer8d-calendar-render.js"></script>
+    <script src="../l8ui/calendar/layer8d-calendar-events.js"></script>
+    <script src="../l8ui/m/js/layer8m-calendar.js"></script>
+    <script src="../l8ui/tree_grid/layer8d-tree-grid-core.js"></script>
+    <script src="../l8ui/tree_grid/layer8d-tree-grid-render.js"></script>
+    <script src="../l8ui/tree_grid/layer8d-tree-grid-events.js"></script>
+    <script src="../l8ui/m/js/layer8m-tree-grid.js"></script>
+    <script src="../l8ui/gantt/layer8d-gantt-core.js"></script>
+    <script src="../l8ui/gantt/layer8d-gantt-render.js"></script>
+    <script src="../l8ui/gantt/layer8d-gantt-events.js"></script>
+    <script src="../l8ui/m/js/layer8m-gantt.js"></script>
+    <script src="../l8ui/wizard/layer8d-wizard-core.js"></script>
+    <script src="../l8ui/wizard/layer8d-wizard-render.js"></script>
+    <script src="../l8ui/m/js/layer8m-wizard.js"></script>
+    <script src="../l8ui/dashboard/layer8d-widget.js"></script>
+
+    <!-- JS: Forms -->
+    <script src="../l8ui/shared/layer8-format-display.js"></script>
+    <script src="../l8ui/m/js/layer8m-forms-fields.js"></script>
+    <script src="../l8ui/m/js/layer8m-forms-fields-reference.js"></script>
+    <script src="../l8ui/m/js/layer8m-forms-fields-ext.js"></script>
+    <script src="../l8ui/m/js/layer8m-forms.js"></script>
+    <script src="../l8ui/m/js/layer8m-forms-inline.js"></script>
+    <script src="../l8ui/m/js/layer8m-datepicker.js"></script>
+
+    <!-- JS: Reference Registry -->
+    <script src="../l8ui/m/js/layer8m-reference-registry.js"></script>
+    <script src="js/spring-reference-registry.js"></script>
+    <script src="../l8ui/m/js/layer8m-reference-picker.js"></script>
+
+    <!-- JS: Renderers -->
+    <script src="../l8ui/m/js/layer8m-renderers.js"></script>
+
+    <!-- JS: Module Data - Browse -->
+    <script src="js/browse/browse-enums.js"></script>
+    <script src="js/browse/browse-columns.js"></script>
+    <script src="js/browse/browse-forms.js"></script>
+
+    <!-- JS: Module Data - My Bids -->
+    <script src="js/mybids/mybids-enums.js"></script>
+    <script src="js/mybids/mybids-columns.js"></script>
+    <script src="js/mybids/mybids-forms.js"></script>
+
+    <!-- JS: Module Data - Deals -->
+    <script src="js/deals/deals-enums.js"></script>
+    <script src="js/deals/deals-columns.js"></script>
+    <script src="js/deals/deals-forms.js"></script>
+
+    <!-- JS: Module Data - Reviews -->
+    <script src="js/reviews/reviews-enums.js"></script>
+    <script src="js/reviews/reviews-columns.js"></script>
+    <script src="js/reviews/reviews-forms.js"></script>
+
+    <!-- JS: Spring Registry -->
+    <script src="js/spring-index.js"></script>
+
+    <!-- JS: SYS Security -->
+    <script src="../l8ui/sys/security/l8security-enums.js"></script>
+    <script src="../l8ui/sys/security/l8security-columns.js"></script>
+    <script src="../l8ui/sys/security/l8security-forms.js"></script>
+
+    <!-- JS: Shared Components -->
+    <script src="../l8ui/shared/layer8d-toggle-tree.js"></script>
+    <script src="../l8ui/shared/layer8d-module-filter.js"></script>
+    <script src="../l8ui/shared/layer8d-permission-filter.js"></script>
+    <script src="../l8ui/sys/modules/l8sys-dependency-graph.js"></script>
+    <script src="../l8ui/sys/modules/l8sys-modules-map.js"></script>
+    <script src="../l8ui/sys/modules/l8sys-modules.js"></script>
+    <script src="../l8ui/sys/dataimport/l8dataimport.js"></script>
+    <script src="../l8ui/sys/dataimport/l8dataimport-templates.js"></script>
+    <script src="../l8ui/sys/dataimport/l8dataimport-transfer.js"></script>
+    <script src="../l8ui/sys/dataimport/l8dataimport-execute.js"></script>
+    <script src="../l8ui/shared/layer8-markdown.js"></script>
+
+    <!-- JS: Navigation Core -->
+    <script src="../l8ui/m/js/layer8m-nav-crud.js"></script>
+    <script src="../l8ui/m/js/layer8m-nav-data.js"></script>
+    <script src="../l8ui/m/js/layer8m-nav.js"></script>
+
+    <!-- JS: Navigation Config -->
+    <script src="js/mobile-config-spring.js"></script>
+
+    <!-- JS: App Core -->
+    <script src="js/app-core.js"></script>
+</body>
+</html>

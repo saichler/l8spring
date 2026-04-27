@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spring-vnet
+  labels:
+    name: spring-vnet
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: spring-vnet
+  name: spring-vnet
+  labels:
+    app: spring-vnet
+spec:
+  selector:
+    matchLabels:
+      app: spring-vnet
+  template:
+    metadata:
+      labels:
+        app: spring-vnet
+    spec:
+      hostNetwork: true
+      containers:
+        - name: spring-vnet
+          image: saichler/spring-vnet:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 34999
+          volumeMounts:
+            - name: hdata
+              mountPath: /data
+      volumes:
+        - name: hdata
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate

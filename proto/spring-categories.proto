@@ -1,0 +1,24 @@
+syntax = "proto3";
+package spring;
+option go_package = "./types/spring";
+
+import "l8common.proto";
+import "api.proto";
+
+message SpringCategory {
+    string category_id = 1;
+    string name = 2;
+    string description = 3;
+    string parent_category_id = 4;
+    string icon_url = 5;
+    bool is_active = 6;
+    int32 sort_order = 7;
+    int64 listing_count = 8;
+    l8common.AuditInfo audit_info = 20;
+    map<string, string> custom_fields = 21;
+}
+
+message SpringCategoryList {
+    repeated SpringCategory list = 1;
+    l8api.L8MetaData metadata = 2;
+}

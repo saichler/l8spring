@@ -1,0 +1,40 @@
+syntax = "proto3";
+package spring;
+option go_package = "./types/spring";
+
+import "l8common.proto";
+import "api.proto";
+
+enum SpringReviewStatus {
+    SPRING_REVIEW_STATUS_UNSPECIFIED = 0;
+    SPRING_REVIEW_STATUS_PENDING = 1;
+    SPRING_REVIEW_STATUS_PUBLISHED = 2;
+    SPRING_REVIEW_STATUS_FLAGGED = 3;
+    SPRING_REVIEW_STATUS_REMOVED = 4;
+}
+
+enum SpringReviewerRole {
+    SPRING_REVIEWER_ROLE_UNSPECIFIED = 0;
+    SPRING_REVIEWER_ROLE_BUYER = 1;
+    SPRING_REVIEWER_ROLE_SELLER = 2;
+}
+
+message SpringReview {
+    string review_id = 1;
+    string deal_id = 2;
+    string reviewer_id = 3;
+    string reviewee_id = 4;
+    string reviewer_display_name = 5;
+    SpringReviewerRole reviewer_role = 6;
+    int32 rating = 7;
+    string title = 8;
+    string content = 9;
+    SpringReviewStatus status = 10;
+    l8common.AuditInfo audit_info = 20;
+    map<string, string> custom_fields = 21;
+}
+
+message SpringReviewList {
+    repeated SpringReview list = 1;
+    l8api.L8MetaData metadata = 2;
+}

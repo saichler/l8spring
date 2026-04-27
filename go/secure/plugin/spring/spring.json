@@ -1,0 +1,106 @@
+{
+  "credentials": {
+    "postgres": {
+      "aside": "admin",
+      "yside": "5432",
+      "zside": "admin"
+    }
+  },
+  "key": "spring-back-sell-aes-key!",
+  "secret": "spring-back-sell-secret!",
+  "roles": {
+    "admin": {
+      "rules": {
+        "admin-all": {
+          "ruleId": "admin-all",
+          "elemType": "*",
+          "allowed": true,
+          "actions": { "-999": true },
+          "attributes": { "*": "*" }
+        }
+      }
+    },
+    "user": {
+      "rules": {
+        "user-read-categories": {
+          "ruleId": "user-read-categories",
+          "elemType": "SpringCategory",
+          "allowed": true,
+          "actions": { "5": true },
+          "attributes": { "*": "*" }
+        },
+        "user-crud-listings": {
+          "ruleId": "user-crud-listings",
+          "elemType": "SpringListing",
+          "allowed": true,
+          "actions": { "-999": true },
+          "attributes": { "*": "*" }
+        },
+        "user-crud-bids": {
+          "ruleId": "user-crud-bids",
+          "elemType": "SpringBid",
+          "allowed": true,
+          "actions": { "-999": true },
+          "attributes": { "*": "*" }
+        },
+        "user-rw-deals": {
+          "ruleId": "user-rw-deals",
+          "elemType": "SpringDeal",
+          "allowed": true,
+          "actions": { "2": true, "5": true },
+          "attributes": { "*": "*" }
+        },
+        "user-post-get-reviews": {
+          "ruleId": "user-post-get-reviews",
+          "elemType": "SpringReview",
+          "allowed": true,
+          "actions": { "1": true, "5": true },
+          "attributes": { "*": "*" }
+        },
+        "user-deny-other-drafts": {
+          "ruleId": "user-deny-other-drafts",
+          "elemType": "SpringListing",
+          "allowed": false,
+          "actions": {},
+          "attributes": {
+            "SpringListing": "select * from SpringListing where buyerId!=${userId} and status=1"
+          }
+        },
+        "user-deny-other-deals": {
+          "ruleId": "user-deny-other-deals",
+          "elemType": "SpringDeal",
+          "allowed": false,
+          "actions": {},
+          "attributes": {
+            "SpringDeal": "select * from SpringDeal where buyerId!=${userId} and sellerId!=${userId}"
+          }
+        },
+        "user-deny-deal-payment": {
+          "ruleId": "user-deny-deal-payment",
+          "elemType": "SpringDeal",
+          "allowed": false,
+          "actions": {},
+          "attributes": {
+            "springdeal.paymentreference": ""
+          }
+        }
+      }
+    }
+  },
+  "users": {
+    "admin": {
+      "userName": "admin",
+      "password": "admin",
+      "roles": { "admin": true }
+    }
+  },
+  "sysconfig": {
+    "dataStoreConfig": {
+      "type": "postgres",
+      "name": "spring"
+    },
+    "logLevel": 3,
+    "webPort": 2773,
+    "queueSize": 100
+  }
+}

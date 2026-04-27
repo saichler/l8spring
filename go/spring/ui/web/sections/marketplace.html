@@ -1,0 +1,74 @@
+<div class="section-container l8-section">
+    <div class="page-header"><h1>Marketplace</h1></div>
+    <div class="l8-module-tabs">
+        <button class="l8-module-tab active" data-module="browse">
+            <span class="tab-label">Browse</span>
+        </button>
+        <button class="l8-module-tab" data-module="mylistings">
+            <span class="tab-label">My Listings</span>
+        </button>
+        <button class="l8-module-tab" data-module="mybids">
+            <span class="tab-label">My Bids</span>
+        </button>
+        <button class="l8-module-tab" data-module="deals">
+            <span class="tab-label">Deals</span>
+        </button>
+        <button class="l8-module-tab" data-module="reviews">
+            <span class="tab-label">Reviews</span>
+        </button>
+    </div>
+
+    <!-- Browse: Listings + Categories -->
+    <div class="l8-module-content active" data-module="browse">
+        <div class="l8-subnav">
+            <a class="l8-subnav-item active" data-service="listings">Listings</a>
+            <a class="l8-subnav-item" data-service="categories">Categories</a>
+        </div>
+        <div class="l8-service-view active" data-service="listings">
+            <div class="l8-table-container" id="browse-listings-table-container"></div>
+        </div>
+        <div class="l8-service-view" data-service="categories">
+            <div class="l8-table-container" id="browse-categories-table-container"></div>
+        </div>
+    </div>
+
+    <!-- My Listings -->
+    <div class="l8-module-content" data-module="mylistings">
+        <div class="l8-subnav">
+            <a class="l8-subnav-item active" data-service="mylistings">My Listings</a>
+        </div>
+        <div class="l8-service-view active" data-service="mylistings">
+            <div class="l8-table-container" id="mylistings-mylistings-table-container"></div>
+        </div>
+    </div>
+
+    <!-- My Bids -->
+    <div class="l8-module-content" data-module="mybids">
+        <div class="l8-subnav">
+            <a class="l8-subnav-item active" data-service="mybids">My Bids</a>
+        </div>
+        <div class="l8-service-view active" data-service="mybids">
+            <div class="l8-table-container" id="mybids-mybids-table-container"></div>
+        </div>
+    </div>
+
+    <!-- Deals -->
+    <div class="l8-module-content" data-module="deals">
+        <div class="l8-subnav">
+            <a class="l8-subnav-item active" data-service="deals">My Deals</a>
+        </div>
+        <div class="l8-service-view active" data-service="deals">
+            <div class="l8-table-container" id="deals-deals-table-container"></div>
+        </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="l8-module-content" data-module="reviews">
+        <div class="l8-subnav">
+            <a class="l8-subnav-item active" data-service="reviews">Reviews</a>
+        </div>
+        <div class="l8-service-view active" data-service="reviews">
+            <div class="l8-table-container" id="reviews-reviews-table-container"></div>
+        </div>
+    </div>
+</div>

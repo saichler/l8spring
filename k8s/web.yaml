@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spring-web
+  labels:
+    name: spring-web
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: spring-web
+  name: spring-web
+  labels:
+    app: spring-web
+spec:
+  selector:
+    matchLabels:
+      app: spring-web
+  template:
+    metadata:
+      labels:
+        app: spring-web
+    spec:
+      hostNetwork: true
+      containers:
+        - name: spring-web
+          image: saichler/spring-web:latest
+          imagePullPolicy: Always
+          env:
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          volumeMounts:
+            - name: hdata
+              mountPath: /data
+      volumes:
+        - name: hdata
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate
