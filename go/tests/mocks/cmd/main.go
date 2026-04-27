@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	address := flag.String("address", "https://localhost:2773", "Server address")
+	address := flag.String("address", "https://localhost:4445", "Server address")
 	user := flag.String("user", "admin", "Username")
 	password := flag.String("password", "admin", "Password")
 	insecure := flag.Bool("insecure", false, "Skip TLS verification")

@@ -1,24 +1,49 @@
+<!--
+© 2025 Sharon Aicler (saichler@gmail.com)
+
+Layer 8 Ecosystem is licensed under the Apache License, Version 2.0.
+You may obtain a copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Spring Back Sell</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <!-- CSS: Theme -->
+    <!-- CSS: Theme (tokens first, then fonts + shared classes) -->
+    <link rel="stylesheet" href="l8ui/shared/layer8d-theme-tokens.css">
     <link rel="stylesheet" href="l8ui/shared/layer8d-theme.css">
     <link rel="stylesheet" href="l8ui/shared/layer8d-animations.css">
     <link rel="stylesheet" href="l8ui/shared/layer8d-scrollbar.css">
+    <link rel="stylesheet" href="l8ui/shared/layer8-print.css" media="print">
 
-    <!-- CSS: Section Layout -->
+    <!-- CSS: Section Layout (shared by all modules) -->
     <link rel="stylesheet" href="l8ui/shared/layer8-section-layout.css">
     <link rel="stylesheet" href="l8ui/shared/layer8-section-responsive.css">
+    <link rel="stylesheet" href="css/base-core.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
     <!-- CSS: Components -->
     <link rel="stylesheet" href="l8ui/edit_table/layer8d-table.css">
     <link rel="stylesheet" href="l8ui/shared/layer8d-toggle-tree.css">
     <link rel="stylesheet" href="l8ui/popup/layer8d-popup.css">
     <link rel="stylesheet" href="l8ui/popup/layer8d-popup-forms.css">
+    <link rel="stylesheet" href="l8ui/shared/layer8d-form-fields.css">
+    <link rel="stylesheet" href="l8ui/shared/layer8-file-upload.css">
+    <link rel="stylesheet" href="l8ui/popup/layer8d-popup-inline-table.css">
     <link rel="stylesheet" href="l8ui/popup/layer8d-popup-content.css">
     <link rel="stylesheet" href="l8ui/datepicker/layer8d-datepicker.css">
     <link rel="stylesheet" href="l8ui/reference_picker/layer8d-reference-picker.css">
@@ -39,9 +64,6 @@
     <!-- CSS: Markdown -->
     <link rel="stylesheet" href="l8ui/shared/layer8-markdown.css">
 
-    <!-- CSS: File Upload -->
-    <link rel="stylesheet" href="l8ui/shared/layer8-file-upload.css">
-
     <!-- CSS: SYS Module -->
     <link rel="stylesheet" href="l8ui/sys/l8sys.css">
     <link rel="stylesheet" href="l8ui/sys/health/l8health.css">
@@ -51,20 +73,97 @@
 </head>
 <body>
     <div class="app-container">
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h2>Spring Back Sell</h2>
+        <!-- Header -->
+        <header class="app-header">
+            <!-- Header Background Illustration -->
+            <svg class="header-illustration" viewBox="0 0 1920 60" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="headerNodeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:0.3" />
+                        <stop offset="100%" style="stop-color:#0284c7;stop-opacity:0.2" />
+                    </linearGradient>
+                </defs>
+                <!-- Decorative network lines -->
+                <path d="M 0,30 Q 200,10 400,30 T 800,30" fill="none" stroke="rgba(14, 165, 233, 0.15)" stroke-width="1.5"/>
+                <path d="M 1920,30 Q 1720,50 1520,30 T 1120,30" fill="none" stroke="rgba(14, 165, 233, 0.15)" stroke-width="1.5"/>
+                <!-- Small animated dots -->
+                <circle cx="200" cy="20" r="2" fill="rgba(14, 165, 233, 0.5)">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="600" cy="25" r="2" fill="rgba(14, 165, 233, 0.5)">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="1300" cy="40" r="2" fill="rgba(14, 165, 233, 0.5)">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="1700" cy="35" r="2" fill="rgba(14, 165, 233, 0.5)">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="4.5s" repeatCount="indefinite"/>
+                </circle>
+                <!-- Small server icons on edges -->
+                <rect x="50" y="25" width="4" height="10" rx="1" fill="url(#headerNodeGradient)"/>
+                <rect x="1860" y="25" width="4" height="10" rx="1" fill="url(#headerNodeGradient)"/>
+            </svg>
+
+            <div class="header-left">
+                <img src="l8ui/images/logo.gif" alt="Spring Back Sell Logo" class="header-logo">
+                <div class="header-title">
+                    <h1>Spring Back Sell</h1>
+                    <p class="header-subtitle">Online Marketplace</p>
+                </div>
             </div>
-            <nav id="sidebar-nav"></nav>
-            <div class="sidebar-footer">
-                <button onclick="logout()" class="sidebar-logout">Logout</button>
+            <div class="header-right">
+                <div class="powered-by-header">
+                    <span>Powered by</span>
+                    <img src="l8ui/images/Layer8Logo.gif" alt="Layer 8 Ecosystem" class="layer8-header-logo">
+                    <span class="layer8-header-text">Layer 8 Ecosystem</span>
+                </div>
+                <div class="layer8d-theme-picker">
+                    <button class="layer8d-theme-btn" onclick="Layer8DThemeSwitcher.toggleDropdown()" aria-label="Choose theme">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 0 20V2z"/></svg>
+                    </button>
+                    <div class="layer8d-theme-menu"></div>
+                </div>
+                <div class="user-menu">
+                    <span class="username">Admin</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
             </div>
-        </div>
-        <div class="main-content" id="main-content"></div>
+        </header>
+
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <ul class="nav-menu">
+                <li><a href="#" data-section="dashboard" class="nav-link active">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a></li>
+                <li><a href="#" data-section="marketplace" class="nav-link">
+                    <span class="nav-icon">🛒</span>
+                    <span>Marketplace</span>
+                </a></li>
+                <li><a href="#" data-section="system" class="nav-link">
+                    <span class="nav-icon">⚙️</span>
+                    <span>System</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div id="content-area"></div>
+        </main>
     </div>
 
-    <!-- JS: App Shell -->
+    <!-- Popup Root -->
+    <div id="layer8d-popup-root"></div>
+
+    <!-- JS: App Shell (sections mapping, app bootstrap) -->
     <script src="js/sections.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- JS: Theme Switcher -->
+    <script src="l8ui/shared/layer8d-theme-switcher.js"></script>
+    <script>Layer8DThemeSwitcher.init();</script>
 
     <!-- JS: Layer8 Core -->
     <script src="l8ui/shared/layer8d-config.js"></script>
@@ -72,7 +171,7 @@
     <script src="l8ui/shared/layer8d-renderers.js"></script>
     <script src="l8ui/shared/layer8d-reference-registry.js"></script>
 
-    <!-- JS: Factory Components -->
+    <!-- JS: Factory Components (load before module scripts) -->
     <script src="l8ui/shared/layer8-enum-factory.js"></script>
     <script src="l8ui/shared/layer8-ref-factory.js"></script>
     <script src="l8ui/shared/layer8-column-factory.js"></script>
@@ -85,10 +184,10 @@
     <!-- JS: Reference Data -->
     <script src="js/reference-registry-spring.js"></script>
 
-    <!-- JS: Notification Component -->
+    <!-- JS: Notification Component (load before forms) -->
     <script src="l8ui/notification/layer8d-notification.js"></script>
 
-    <!-- JS: Input Formatter Component -->
+    <!-- JS: Input Formatter Component (load in order, before forms) -->
     <script src="l8ui/input_formatters/layer8d-input-formatter-utils.js"></script>
     <script src="l8ui/input_formatters/layer8d-input-formatter-masks.js"></script>
     <script src="l8ui/input_formatters/layer8d-input-formatter-types-validators.js"></script>
@@ -105,7 +204,8 @@
     <!-- JS: CSV Export -->
     <script src="l8ui/shared/layer8-csv-export.js"></script>
 
-    <!-- JS: Forms Component -->
+    <!-- JS: Forms Component (load sub-modules then facade) -->
+    <script src="l8ui/shared/layer8-format-display.js"></script>
     <script src="l8ui/shared/layer8d-forms-fields.js"></script>
     <script src="l8ui/shared/layer8d-forms-fields-ext.js"></script>
     <script src="l8ui/shared/layer8d-forms-data.js"></script>
@@ -116,13 +216,13 @@
     <!-- JS: Popup Component -->
     <script src="l8ui/popup/layer8d-popup.js"></script>
 
-    <!-- JS: Date Picker Component -->
+    <!-- JS: Date Picker Component (load in order) -->
     <script src="l8ui/datepicker/layer8d-datepicker-utils.js"></script>
     <script src="l8ui/datepicker/layer8d-datepicker-calendar.js"></script>
     <script src="l8ui/datepicker/layer8d-datepicker-core.js"></script>
     <script src="l8ui/datepicker/layer8d-datepicker.js"></script>
 
-    <!-- JS: Reference Picker Component -->
+    <!-- JS: Reference Picker Component (load in order) -->
     <script src="l8ui/reference_picker/layer8d-reference-picker-utils.js"></script>
     <script src="l8ui/reference_picker/layer8d-reference-picker-data.js"></script>
     <script src="l8ui/reference_picker/layer8d-reference-picker-render.js"></script>
@@ -130,7 +230,7 @@
     <script src="l8ui/reference_picker/layer8d-reference-picker-core.js"></script>
     <script src="l8ui/reference_picker/layer8d-reference-picker.js"></script>
 
-    <!-- JS: Table Component -->
+    <!-- JS: Table Component (load in order) -->
     <script src="l8ui/edit_table/layer8d-table-core.js"></script>
     <script src="l8ui/edit_table/layer8d-table-data.js"></script>
     <script src="l8ui/edit_table/layer8d-table-render.js"></script>
@@ -138,24 +238,45 @@
     <script src="l8ui/edit_table/layer8d-table-filter.js"></script>
     <script src="l8ui/edit_table/layer8d-table.js"></script>
 
-    <!-- JS: View System -->
+    <!-- JS: Export -->
+    <script src="l8ui/shared/layer8-excel-export.js"></script>
+    <script src="l8ui/shared/layer8-pdf-export.js"></script>
+    <script src="l8ui/shared/layer8-export-helper.js"></script>
+
+    <!-- JS: Data Source & View Factory -->
+    <script src="l8ui/shared/layer8d-data-source.js"></script>
     <script src="l8ui/shared/layer8d-view-factory.js"></script>
     <script src="l8ui/shared/layer8-view-switcher.js"></script>
-    <script src="l8ui/shared/layer8d-data-source.js"></script>
+
+    <!-- JS: Chart Component -->
     <script src="l8ui/chart/layer8d-chart-core.js"></script>
     <script src="l8ui/chart/layer8d-chart-bar.js"></script>
     <script src="l8ui/chart/layer8d-chart-line.js"></script>
     <script src="l8ui/chart/layer8d-chart-pie.js"></script>
+
+    <!-- JS: Kanban Component -->
     <script src="l8ui/kanban/layer8d-kanban-core.js"></script>
     <script src="l8ui/kanban/layer8d-kanban-render.js"></script>
+
+    <!-- JS: Timeline Component -->
     <script src="l8ui/timeline/layer8d-timeline.js"></script>
+
+    <!-- JS: Calendar Component -->
     <script src="l8ui/calendar/layer8d-calendar-core.js"></script>
     <script src="l8ui/calendar/layer8d-calendar-render.js"></script>
+
+    <!-- JS: Gantt Component -->
     <script src="l8ui/gantt/layer8d-gantt-core.js"></script>
     <script src="l8ui/gantt/layer8d-gantt-render.js"></script>
+
+    <!-- JS: Tree Grid Component -->
     <script src="l8ui/tree_grid/layer8d-tree-grid-core.js"></script>
+
+    <!-- JS: Wizard Component -->
     <script src="l8ui/wizard/layer8d-wizard-core.js"></script>
     <script src="l8ui/wizard/layer8d-wizard-render.js"></script>
+
+    <!-- JS: Dashboard Widget Component -->
     <script src="l8ui/dashboard/layer8d-widget.js"></script>
 
     <!-- JS: Module Abstractions -->
@@ -164,6 +285,8 @@
     <script src="l8ui/shared/layer8d-module-navigation.js"></script>
     <script src="l8ui/shared/layer8d-toggle-tree.js"></script>
     <script src="l8ui/shared/layer8d-module-filter.js"></script>
+    <script src="l8ui/shared/layer8d-permission-filter.js"></script>
+    <script src="l8ui/shared/layer8-module-factory-core.js"></script>
     <script src="l8ui/shared/layer8d-module-factory.js"></script>
 
     <!-- JS: Module Data — Marketplace -->
@@ -201,8 +324,5 @@
     <script src="l8ui/sys/dataimport/l8dataimport-transfer.js"></script>
     <script src="l8ui/sys/dataimport/l8dataimport-execute.js"></script>
     <script src="l8ui/sys/l8sys-init.js"></script>
-
-    <!-- JS: App -->
-    <script src="js/app.js"></script>
 </body>
 </html>

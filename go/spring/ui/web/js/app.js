@@ -1,132 +1,129 @@
-(function() {
-    'use strict';
+/*
+© 2025 Sharon Aicler (saichler@gmail.com)
+
+Layer 8 Ecosystem is licensed under the Apache License, Version 2.0.
+You may obtain a copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+function getAuthHeaders() {
+    var bearerToken = sessionStorage.getItem('bearerToken');
+    return {
+        'Authorization': bearerToken ? 'Bearer ' + bearerToken : '',
+        'Content-Type': 'application/json'
+    };
+}
+
+function logout() {
+    sessionStorage.removeItem('bearerToken');
+    localStorage.removeItem('bearerToken');
+    window.location.href = 'l8ui/login/index.html';
+}
+
+function showErrorAndLogout(message, detail) {
+    sessionStorage.removeItem('bearerToken');
+    localStorage.removeItem('bearerToken');
+    if (typeof Layer8DPopup !== 'undefined') {
+        Layer8DPopup.show({
+            title: 'Session Error',
+            content: '<div style="padding:16px;"><p style="margin-bottom:12px;font-size:15px;">' +
+                (typeof Layer8DUtils !== 'undefined' ? Layer8DUtils.escapeHtml(message) : message) + '</p>' +
+                (detail ? '<pre style="background:var(--layer8d-bg-light);padding:12px;border-radius:6px;font-size:12px;max-height:200px;overflow:auto;white-space:pre-wrap;word-break:break-word;">' +
+                (typeof Layer8DUtils !== 'undefined' ? Layer8DUtils.escapeHtml(detail) : detail) + '</pre>' : '') +
+                '</div>',
+            size: 'medium',
+            showFooter: true,
+            saveButtonText: 'Go to Login',
+            showCancelButton: false,
+            onSave: function() {
+                Layer8DPopup.close();
+                window.location.href = 'l8ui/login/index.html';
+            }
+        });
+    } else {
+        alert(message + (detail ? '\n\n' + detail : ''));
+        window.location.href = 'l8ui/login/index.html';
+    }
+}
+
+function loadSection(sectionName) {
+    var path = window.sections[sectionName];
+    if (!path) return;
+
+    var content = document.getElementById('content-area');
+    if (!content) return;
+
+    document.querySelectorAll('.nav-link').forEach(function(el) {
+        el.classList.remove('active');
+        if (el.getAttribute('data-section') === sectionName) el.classList.add('active');
+    });
+
+    fetch(path)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            content.innerHTML = html;
+            var scripts = content.querySelectorAll('script');
+            scripts.forEach(function(oldScript) {
+                var newScript = document.createElement('script');
+                Array.from(oldScript.attributes).forEach(function(attr) {
+                    newScript.setAttribute(attr.name, attr.value);
+                });
+                newScript.textContent = oldScript.textContent;
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+            var init = window.sectionInitializers[sectionName];
+            if (init) init();
+        })
+        .catch(function(e) {
+            console.error('Failed to load section:', e);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof Layer8DConfig !== 'undefined') {
+        await Layer8DConfig.load();
+    }
 
     var bearerToken = sessionStorage.getItem('bearerToken');
     if (!bearerToken) {
-        window.location.href = '/login.html';
+        window.location.href = 'l8ui/login/index.html';
         return;
     }
 
-    window.getAuthHeaders = function() {
-        return {
-            'Authorization': 'Bearer ' + bearerToken,
-            'Content-Type': 'application/json'
-        };
-    };
+    localStorage.setItem('bearerToken', bearerToken);
+    window.bearerToken = bearerToken;
 
-    window.logout = function() {
-        sessionStorage.removeItem('bearerToken');
-        sessionStorage.removeItem('username');
-        window.location.href = '/login.html';
-    };
+    var usernameEl = document.querySelector('.username');
+    if (usernameEl) {
+        usernameEl.textContent = sessionStorage.getItem('currentUser') || 'Admin';
+    }
 
-    var currentSection = null;
-
-    async function initApp() {
-        try {
-            await Layer8DConfig.load();
-        } catch (e) {
-            console.error('Failed to load config:', e);
+    try {
+        var permResp = await fetch('/permissions', {
+            headers: { 'Authorization': 'Bearer ' + bearerToken, 'Content-Type': 'application/json' }
+        });
+        if (permResp.ok) {
+            window.Layer8DPermissions = await permResp.json();
         }
+    } catch (e) { console.warn('Failed to load permissions:', e); }
 
-        try {
-            var permResp = await fetch('/permissions', {
-                headers: getAuthHeaders()
-            });
-            if (permResp.ok) {
-                window.Layer8DPermissions = await permResp.json();
-            }
-        } catch (e) { console.warn('Failed to load permissions:', e); }
+    loadSection('dashboard');
 
-        loadSidebar();
-        loadDefaultSection();
-    }
-
-    function loadSidebar() {
-        var sidebar = document.getElementById('sidebar-nav');
-        if (!sidebar) return;
-
-        var links = [
-            { section: 'dashboard', label: 'Dashboard', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' },
-            { section: 'marketplace', label: 'Marketplace', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' },
-            { section: 'system', label: 'System', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' }
-        ];
-
-        links.forEach(function(link) {
-            var a = document.createElement('a');
-            a.href = '#' + link.section;
-            a.className = 'sidebar-item';
-            a.setAttribute('data-section', link.section);
-            if (link.icon) {
-                var iconSpan = document.createElement('span');
-                iconSpan.className = 'sidebar-icon';
-                iconSpan.innerHTML = link.icon;
-                a.appendChild(iconSpan);
-            }
-            var labelSpan = document.createElement('span');
-            labelSpan.textContent = link.label;
-            a.appendChild(labelSpan);
-            a.addEventListener('click', function(e) {
-                e.preventDefault();
-                loadSection(link.section);
-            });
-            sidebar.appendChild(a);
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            navLinks.forEach(function(l) { l.classList.remove('active'); });
+            this.classList.add('active');
+            var section = this.getAttribute('data-section');
+            loadSection(section);
         });
-    }
-
-    function loadSection(sectionName) {
-        var path = window.sections[sectionName];
-        if (!path) return;
-
-        var content = document.getElementById('main-content');
-        if (!content) return;
-
-        document.querySelectorAll('.sidebar-item').forEach(function(el) {
-            el.classList.remove('active');
-            if (el.getAttribute('data-section') === sectionName) el.classList.add('active');
-        });
-
-        currentSection = sectionName;
-
-        fetch(path)
-            .then(function(r) { return r.text(); })
-            .then(function(html) {
-                content.innerHTML = html;
-                executeScripts(content);
-                var init = window.sectionInitializers[sectionName];
-                if (init) init();
-            })
-            .catch(function(e) {
-                console.error('Failed to load section:', e);
-            });
-    }
-
-    function executeScripts(container) {
-        var scripts = container.querySelectorAll('script');
-        scripts.forEach(function(oldScript) {
-            var newScript = document.createElement('script');
-            Array.from(oldScript.attributes).forEach(function(attr) {
-                newScript.setAttribute(attr.name, attr.value);
-            });
-            newScript.textContent = oldScript.textContent;
-            oldScript.parentNode.replaceChild(newScript, oldScript);
-        });
-    }
-
-    function loadDefaultSection() {
-        var hash = window.location.hash.slice(1);
-        var section = window.sections[hash] ? hash : 'dashboard';
-        loadSection(section);
-    }
-
-    window.addEventListener('hashchange', function() {
-        var hash = window.location.hash.slice(1);
-        if (window.sections[hash] && hash !== currentSection) {
-            loadSection(hash);
-        }
     });
-
-    window.loadSection = loadSection;
-
-    initApp();
-})();
+});
